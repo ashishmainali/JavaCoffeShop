@@ -9,8 +9,9 @@ std::string Product::name()
 std::string Product::to_string()
 {
   std::ostringstream strs;
-  strs << " "<< _price << " " << _cost;
-  std::string str = _name ;
-  str = str + strs.str();
+  strs << _name<< " "<< _price << " " << _cost;
+  std::string str = strs.str() ;
+  return str;
+
 
 }

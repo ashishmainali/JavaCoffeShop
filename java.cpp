@@ -6,3 +6,10 @@ void Java::add_shot(Shot shot)
 {
 	_shots.push_back(shot);
 }
+Java::to_string()
+{
+	std::ostringstream strs;
+  strs << _name<< " "<< _price << " " << _cost;
+  std::string str = strs.str() ;
+  return str;
+}
