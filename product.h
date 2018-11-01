@@ -1,6 +1,10 @@
 #ifndef __PRODUCT_H
 #define __PRODUCT_H
 #inclue <iostream>
+#include <string>
+#include <ostream>
+#include <sstream>
+
 
 class Product
 {
