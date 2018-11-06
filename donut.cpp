@@ -18,7 +18,7 @@ std::string Donut::to_string()
   		strs<<"Strawberry";
   	//checking sprinkles 
   	if (_sprinkles)
-  		strs<< "and sprinkles.";
+  		strs<< " and sprinkles.";
   	
   	//checking frostings here
   	if (_frosting==Frosting::CHOCLATE_TOP)
