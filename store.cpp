@@ -1,7 +1,7 @@
 #include "store.h"
 
 Store::Store(std::string name):_name{name}{}
-
+Store::Store(){};
 std::string Store::name()
 {
   return _name;
@@ -14,7 +14,16 @@ int Store::number_of_products()
 {
   return _products.size();
 }
-std::string product_to_string(int product)
+std::string Store::product_to_string(int product)
 {
-  return _products[product].product_to_string()
+  return _products[product] -> to_string();
+}
+
+void Store::free_products()
+{
+	for (int i = 0 ; i <_products.size();i++)
+	{	
+		delete _products[i];
+		_products.pop_back();
+	}
 }

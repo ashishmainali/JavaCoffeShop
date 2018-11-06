@@ -2,17 +2,20 @@
 #define __JAVA_H
 #include <iostream>
 #include <vector>
-enum Shot {None, Choclate, Vanilla, Peppermint, Hazelnut }
+#include <exception>
+#include "product.h"
+enum Shot {NONE, CHOCLATE, VANILLA,PEPPERMINT, HAZELNUT, IRISHCREME};
 
-class Java: public product
+class Java: public Product
 {
 	public:
-		Java(std::string name,double price,double,double cost, int darkness);
+		Java(std::string name,double price,double cost, int darkness);
 		void add_shot(Shot shot);
+		std::string to_string();
 	protected:
 		int _darkness;
 		std::vector <Shot> _shots;
-
-
 };
+
+
 #endif
