@@ -22,8 +22,22 @@ std::string Store::product_to_string(int product)
 void Store::free_products()
 {
 	for (int i = 0 ; i <_products.size();i++)
-	{	
+	{
 		delete _products[i];
 		_products.pop_back();
 	}
+}
+
+void Store::add_customer(Customer *customer)
+{
+  _customers.push_back(customer);
+}
+int Store::number_of_customers()
+{
+  _customers.size();
+}
+
+std::string Store::customer_to_string( int customer)
+{
+  return _customers[customer] -> to_string();
 }

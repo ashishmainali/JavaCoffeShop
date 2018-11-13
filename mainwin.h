@@ -21,6 +21,7 @@ class Mainwin : public Gtk::Window
     void on_new_customer_click();
     void on_list_customers_click();
     void on_about_click();
+
   private:
     Store _store;
     Gtk::Label* msg = new Gtk::Label;

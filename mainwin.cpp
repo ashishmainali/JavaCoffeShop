@@ -7,7 +7,7 @@ Mainwin::Mainwin()
   add(*vbox);
   //CRETING MENU BAR "menubar"
   Gtk::MenuBar *menubar = Gtk::manage(new Gtk::MenuBar());
-  vbox->pack_start(*menubar, Gtk::PACK_SHRINK, 0);
+  vbox->pack_start(*menubar,Gtk::PACK_SHRINK, 0);
 
   //F I L E       M E N U
 
@@ -71,9 +71,81 @@ Mainwin::Mainwin()
   createmenu->append(*menuitem_new_customer);
   menuitem_new_customer->signal_activate().connect(sigc::mem_fun(*this, &Mainwin::on_new_customer_click));
 
+  // H E L P
+  // Create a Help menu and add to the menu bar
+  Gtk::MenuItem *menuitem_help =
+  Gtk::manage(new Gtk::MenuItem("_Help", true));
+  menubar->append(*menuitem_help);
+  Gtk::Menu *helpmenu = Gtk::manage(new Gtk::Menu());
+  menuitem_help->set_submenu(*helpmenu);
+  // A B O U T
+  // Append About to the Help menu
+  Gtk::MenuItem *menuitem_about = Gtk::manage(new Gtk::MenuItem("About", true));
+  menuitem_about->signal_activate().connect(
+  sigc::mem_fun(*this, &Mainwin::on_about_click));
+  helpmenu->append(*menuitem_about);
 
 
-  vbox->show_all();
+
+
+
+    // /////////////
+    // T O O L B A R
+    // Add a toolbar to the vertical box below the menu
+    Gtk::Toolbar *toolbar = Gtk::manage(new Gtk::Toolbar);
+    vbox->add(*toolbar);
+
+    //     Add Donut
+    // Add a new icon
+
+
+    Gtk::Image *create_donut = Gtk::manage(new Gtk::Image{"logo/create_donut.png"});
+     create_donut->set_pixel_size(-1);
+    Gtk::ToolButton *tb_create_donut = Gtk::manage(new Gtk::ToolButton(*create_donut));
+    tb_create_donut->set_tooltip_markup("Create a new Donut");
+    tb_create_donut->signal_clicked().connect(sigc::mem_fun(*this, &Mainwin::on_create_donut_click));
+    toolbar->append(*tb_create_donut);
+
+    Gtk::Image *create_coffee = Gtk::manage(new Gtk::Image{"logo/create_coffee.png"});
+    create_coffee->set_pixel_size(-1);
+    Gtk::ToolButton *tb_create_coffee = Gtk::manage(new Gtk::ToolButton(*create_coffee));
+    tb_create_coffee->set_tooltip_markup("Create a new coffee");
+    tb_create_coffee->signal_clicked().connect(sigc::mem_fun(*this, &Mainwin::on_create_coffee_click));
+    toolbar->append(*tb_create_coffee);
+
+    Gtk::Image *new_customer = Gtk::manage(new Gtk::Image{"logo/add_customer.png"});
+    new_customer->set_pixel_size(-1);
+    Gtk::ToolButton *tb_new_customer = Gtk::manage(new Gtk::ToolButton(*new_customer));
+    tb_new_customer->set_tooltip_markup("Add Customer");
+    tb_new_customer->signal_clicked().connect(sigc::mem_fun(*this, &Mainwin::on_new_customer_click));
+    toolbar->append(*tb_new_customer);
+
+    Gtk::Image *view_all_product = Gtk::manage(new Gtk::Image{"logo/view_all_products.png"});
+    Gtk::ToolButton *tb_view_all_product = Gtk::manage(new Gtk::ToolButton(*view_all_product));
+    tb_view_all_product->set_tooltip_markup("View All Products");
+    tb_view_all_product->signal_clicked().connect(sigc::mem_fun(*this, &Mainwin::on_view_all_click));
+    toolbar->append(*tb_view_all_product);
+
+    Gtk::Image *list_customers = Gtk::manage(new Gtk::Image{"logo/list_customers.png"});
+    Gtk::ToolButton *tb_list_customers = Gtk::manage(new Gtk::ToolButton(*list_customers));
+    tb_list_customers->set_tooltip_markup("List All Customers");
+    tb_list_customers->signal_clicked().connect(sigc::mem_fun(*this, &Mainwin::on_list_customers_click));
+    toolbar->append(*tb_list_customers);
+
+    Gtk::Image *about = Gtk::manage(new Gtk::Image{"logo/about.png"});
+    Gtk::ToolButton *tb_about = Gtk::manage(new Gtk::ToolButton(*about));
+    tb_about->set_tooltip_markup("About");
+    tb_about->signal_clicked().connect(sigc::mem_fun(*this, &Mainwin::on_about_click));
+    toolbar->append(*tb_about);
+
+    msg = Gtk::manage(new Gtk::Label());
+    msg->set_hexpand(true);
+    vbox->add(*msg);
+
+
+
+      vbox->show_all();
+
 }
 
 void Mainwin::on_quit_click()
@@ -183,8 +255,7 @@ void Mainwin::on_create_coffee_click()
   std::string t_price = e_price->get_text();
   std::string t_cost = e_cost->get_text();
   int darkness= c_darkness->get_active_row_number();
-  dialog->close();
-  while (Gtk::Main::events_pending())  Gtk::Main::iteration();
+
 
 
 
@@ -193,10 +264,11 @@ void Mainwin::on_create_coffee_click()
   {
     std::regex r0 ("\\d\\d*(.\\d\\d*)?");
     std::regex r1 ("\\w( *(\\w)*)*");
-    if (result)
+    if (result == 1)
     {
       if (std::regex_match(t_name,r1)&& std::regex_match(t_price,r0) && std::regex_match(t_cost,r0))
       {
+        int shot = 0 ;
         Java *j = new Java(t_name,std::stof(t_price),std::stof(t_cost),darkness+1);
         int result = 2;
         while ( result == 2 ){
@@ -231,7 +303,7 @@ void Mainwin::on_create_coffee_click()
 
 
           result = dialog->run();
-          int shot= c_shot->get_active_row_number();
+          shot= c_shot->get_active_row_number();
           dialog->close();
           while (Gtk::Main::events_pending())  Gtk::Main::iteration();
           if (result == 2)
@@ -244,7 +316,7 @@ void Mainwin::on_create_coffee_click()
       else
       {
         Dialogs::message("Please Try again!!","Invalid Input");
-        Mainwin::on_create_donut_click();
+        Mainwin::on_create_coffee_click();
       }
     }
   }
@@ -256,13 +328,14 @@ void Mainwin::on_create_coffee_click()
     Dialogs::message(msg,"Error");
 
   }
-
+  dialog->close();
+  while (Gtk::Main::events_pending())  Gtk::Main::iteration();
 
 
 }
 void Mainwin::on_create_donut_click()
 {
-
+  int result = 0 ;
   Gtk::Dialog *dialog = Gtk::manage(new Gtk::Dialog());
   dialog->set_title("Create Donut");
 
@@ -351,21 +424,20 @@ void Mainwin::on_create_donut_click()
   dialog->add_button("Cancel", 0);
   dialog->add_button("OK", 1);
   dialog->set_default_response(1);
-  int result = dialog->run();
+  result = dialog->run();
   std::string t_name = e_name->get_text();
   std::string t_price = e_price->get_text();
   std::string t_cost = e_cost->get_text();
   int frosting= c_frosting->get_active_row_number();
   int filling = c_filling->get_active_row_number();
   bool add_sprinkles = cb_add_sprinkles->get_active();
-  dialog->close();
-  while (Gtk::Main::events_pending())  Gtk::Main::iteration();
+
 
   try
   {
     std::regex r0 ("\\d\\d*(.\\d\\d*)?");
     std::regex r1 ("\\w((\\w)* *)*");
-    if (result)
+    if (result == 1)
     {
       if (std::regex_match(t_name,r1)&& std::regex_match(t_price,r0) && std::regex_match(t_cost,r0) )
       {
@@ -387,6 +459,8 @@ void Mainwin::on_create_donut_click()
     Dialogs::message(msg,"Error");
 
   }
+  dialog->close();
+  while (Gtk::Main::events_pending())  Gtk::Main::iteration();
 }
 void Mainwin::on_new_customer_click()
 {
@@ -464,3 +538,20 @@ void Mainwin::on_new_customer_click()
 
 
 }
+
+void Mainwin::on_about_click() {
+Gtk::AboutDialog dialog{};
+dialog.set_transient_for(*this);
+dialog.set_program_name("CSE1325 JADE");
+auto logo = Gdk::Pixbuf::create_from_file("logo.jpg");
+dialog.set_logo(logo);
+dialog.set_version("Version 2.0.0");
+dialog.set_copyright("Copyright 2017-2018");
+dialog.set_license_type(Gtk::License::LICENSE_GPL_3_0);
+std::vector< Glib::ustring > authors = {"Ashish Mainali"};
+dialog.set_authors(authors);
+//std::vector< Glib::ustring > artists = {...}; // vector redacted for space
+//dialog.set_artists(artists);
+dialog.run();
+}
+//
