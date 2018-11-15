@@ -284,7 +284,7 @@ void Mainwin::on_create_coffee_click()
 
           c_shot->set_size_request(160);
           c_shot->append("None");
-          c_shot->append("Choclate");
+          c_shot->append("Chocolate");
           c_shot->append("Vanilla");
           c_shot->append("Peppermint");
           c_shot->append("Hazelnut");
@@ -392,7 +392,7 @@ void Mainwin::on_create_donut_click()
   Gtk::ComboBoxText *c_frosting = Gtk::manage(new Gtk::ComboBoxText{});
   c_frosting->set_size_request(160);
   c_frosting->append("Unfrosted");
-  c_frosting->append("Choclate");
+  c_frosting->append("Chocolate");
   c_frosting->append("Vanilla");
   c_frosting->append("Pink");
   c_frosting ->show();

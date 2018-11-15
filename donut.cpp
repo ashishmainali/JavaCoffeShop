@@ -16,19 +16,19 @@ std::string Donut::to_string()
   	strs<<"Bavarian";
   	else
   		strs<<"Strawberry";
-  	//checking sprinkles 
+  	//checking sprinkles
   	if (_sprinkles)
   		strs<< " and sprinkles.";
-  	
+
   	//checking frostings here
-  	if (_frosting==Frosting::CHOCLATE_TOP)
-  		strs<<"(Choclate topping)";
+  	if (_frosting== Frosting::CHOCOLATE_TOP)
+  		strs<<"(Chocolate topping)";
   	else if (_frosting == Frosting::VANILLA_TOP)
   		strs<<"(Vanilla topping)";
-  	
+
   	else
   		strs<< "(Pink topping)";
-  	
+
   std::string str = strs.str() ;
   return str;
 }

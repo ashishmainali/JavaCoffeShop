@@ -4,7 +4,7 @@
 #include <vector>
 #include <exception>
 #include "product.h"
-enum Shot {NONE, CHOCLATE, VANILLA,PEPPERMINT, HAZELNUT, IRISHCREME};
+enum Shot {NONE, CHOCOLATE, VANILLA,PEPPERMINT, HAZELNUT, IRISHCREME};
 
 class Java: public Product
 {

@@ -31,15 +31,15 @@ std::string Java::to_string()
   	case 5: strs << " Extra Dark";break;
   	default: throw myex;
   }
- 
+
 
 
   for (int i = 0 ; i < _shots.size(); i ++)
   {
   	Shot tempShot = _shots[i];
 
-  	if (tempShot == Shot::CHOCLATE)
-  		strs << "(Choclate)";
+  	if (tempShot == Shot::CHOCOLATE)
+  		strs << "(Chocolate)";
   	else if(tempShot == Shot::VANILLA)
   		strs <<"(Vanilla)";
   	else if(tempShot == Shot::HAZELNUT)

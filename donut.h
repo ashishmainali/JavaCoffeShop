@@ -1,7 +1,7 @@
 #ifndef __DONUT_H
 #define __DONUT_H
 #include "product.h"
-enum Frosting {UNFROSTED,CHOCLATE_TOP,VANILLA_TOP,PINK_TOP};
+enum Frosting {UNFROSTED,CHOCOLATE_TOP,VANILLA_TOP,PINK_TOP};
 
 enum Filling {UNFILLED,CREME,BAVARIAN,STRAWBERRY};
 
