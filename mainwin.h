@@ -21,6 +21,8 @@ class Mainwin : public Gtk::Window
     void on_new_customer_click();
     void on_list_customers_click();
     void on_about_click();
+    void on_view_orders_click();
+    void on_create_order_click();
 
   private:
     Store _store;
