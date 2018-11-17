@@ -1,17 +1,22 @@
 #ifndef __ORDER_H
 #define __ORDER_H
 #include "product.h"
-
+#include "java.h"
+#include "donut.h"
+#include <vector>
 class Order
 {
   public:
     Order();
+    Order(bool first);
     int order_number();
     void add_product (Product* product);
     bool paid();
-    vodi pay();
+    void pay();
     bool filled();
     void fill();
+    std::string order_to_string();
+   // bool operator < (const Order& rhs); 
 
   protected:
     std::vector<Product*> _products;
