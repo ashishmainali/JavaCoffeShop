@@ -6,14 +6,14 @@
 
 class Customer {
   public:
-    Customer(std::string Customer, std::string Customer_phone);
+    Customer(std::string customer, std::string customer_phone);
     Customer();
     Customer(std::istream& ist);
     void save(std::ostream& ost);
     std::string to_string() const;
-    friend std::ostream& operator<<(std::ostream& ost, const Customer& Customer);
+    friend std::ostream& operator<<(std::ostream& ost, const Customer& customer);
   private:
-    std::string _Customer;
-    std::string _Customer_phone;
+    std::string _customer;
+    std::string _customer_phone;
 };
 #endif

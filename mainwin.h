@@ -7,6 +7,10 @@
 #include <regex>
 #include <exception>
 #include <stdexcept>
+#include <sstream>
+#include <fstream>
+
+
 
 class Mainwin : public Gtk::Window
 {

@@ -5,13 +5,16 @@ std::string Product::name()
 {
   return _name;
 }
-
+Product::Product(){}
 std::string Product::to_string()
 {
   std::ostringstream strs;
   strs << _name<< " "<< _price << " " << _cost;
   std::string str = strs.str() ;
   return str;
+}
 
+void Product::save(std::ostream& ost)
+{
 
 }

@@ -27,13 +27,13 @@ class Store
     int number_of_orders();
     std::string order_to_string(int order_number);
     void save(std::ostream& ost); 
-}
-
+    void load (std::istream& ist);
+    
   private:
     std::string _name;
     std::vector<Product*> _products;
     std::vector<Customer*> _customers;
-    std::map<Order, Customer*> _orders;
+    std::map<Order, Customer> _orders;
 };
 
 #endif

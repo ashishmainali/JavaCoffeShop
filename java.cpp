@@ -56,3 +56,39 @@ std::string Java::to_string()
   std::string str = strs.str() ;
   return str;
 }
+
+
+void Java::save(std::ostream& ost)
+{
+  ost<< "##JAVA##"<<std::endl;
+  ost << _name << std::endl;
+  ost << _price << std::endl;
+  ost << _cost << std::endl;
+  ost << _darkness << std::endl;
+  ost << _shots.size() << std::endl;
+  for ( auto s : _shots)
+    ost << (int)s << std::endl;
+}
+
+Java::Java(std::istream& ist):Product()
+{
+  double temp;
+  int ss,i = 0;
+    std::getline(ist, _name); 
+    ist >> temp; ist.ignore();
+    _price = temp;
+    ist >> temp; ist.ignore();
+    _cost = temp;
+    
+    ist >> temp; ist.ignore();
+    _darkness = temp;
+   
+    ist >> ss; ist.ignore();
+    while (i <ss )
+    {
+      ist >> temp; ist.ignore();
+      _shots.push_back((Shot)temp);
+      i++;
+    }
+   
+}

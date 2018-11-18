@@ -32,3 +32,37 @@ std::string Donut::to_string()
   std::string str = strs.str() ;
   return str;
 }
+
+void Donut::save(std::ostream& ost)
+{
+  ost<< "##DONUT##" <<std::endl;
+  ost << _name <<std::endl;
+  ost << _price <<std::endl;
+  ost << _cost <<std::endl;
+  ost << (int)_filling <<std::endl;
+  ost << (int) _frosting <<std::endl;
+  ost << _sprinkles <<std::endl;
+}
+
+Donut::Donut(std::istream& ist):Product()
+{
+    double temp;
+    std::getline(ist, _name);
+    
+    ist >> temp; ist.ignore();
+    _price = temp;
+   
+    ist >> temp; ist.ignore();
+    _cost = temp;
+   
+    ist >> temp; ist.ignore();
+    _filling = (Filling)temp;
+   
+    ist >> temp; ist.ignore();
+    _frosting = (Frosting)temp;
+   
+    ist >> temp; ist.ignore();
+    _sprinkles = (temp != 0);
+   
+
+}

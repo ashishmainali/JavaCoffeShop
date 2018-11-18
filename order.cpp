@@ -43,8 +43,11 @@ std::string Order::order_to_string()
   return strs.str();
 }
 /*
-bool Order::operator <(const Order& b)
-{
-  return (_order_number< b.order_number());
-}
-*/
+bool Order::operator< (const Order& userObj) const
+    {
+        if(userObj.order_number() < this->order_number())
+            return true;
+        else
+          return false;
+    }
+*/    

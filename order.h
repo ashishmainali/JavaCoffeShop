@@ -8,7 +8,6 @@ class Order
 {
   public:
     Order();
-    Order(bool first);
     int order_number();
     void add_product (Product* product);
     bool paid();
@@ -16,7 +15,8 @@ class Order
     bool filled();
     void fill();
     std::string order_to_string();
-   // bool operator < (const Order& rhs); 
+    //bool operator< (const Order& userObj);
+
 
   protected:
     std::vector<Product*> _products;

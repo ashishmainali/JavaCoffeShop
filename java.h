@@ -12,6 +12,9 @@ class Java: public Product
 		Java(std::string name,double price,double cost, int darkness);
 		void add_shot(Shot shot);
 		std::string to_string();
+    	void save(std::ostream& ost);
+    	Java(std::istream& ist);
+
 	protected:
 		int _darkness;
 		std::vector <Shot> _shots;

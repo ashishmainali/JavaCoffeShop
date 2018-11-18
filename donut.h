@@ -10,6 +10,8 @@ class Donut: public Product
   public:
     Donut(std::string name,double price,double cost, Frosting frosting, bool sprinkles, Filling filling);
     std::string to_string();
+    void save(std::ostream& ost);
+    Donut(std::istream& ist);
   protected:
     Frosting _frosting;
     Filling _filling;

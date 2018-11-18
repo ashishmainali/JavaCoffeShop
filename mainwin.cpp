@@ -46,6 +46,10 @@ Mainwin::Mainwin()
   menuitem_view_all_customers->signal_activate().connect(sigc::mem_fun(*this, &Mainwin::on_list_customers_click));
   viewmenu->append (*menuitem_view_all_customers);
 
+  Gtk::MenuItem *menuitem_view_all_orders = Gtk::manage(new Gtk::MenuItem("_Orders",true));
+  menuitem_view_all_customers->signal_activate().connect(sigc::mem_fun(*this, &Mainwin::on_view_orders_click));
+  viewmenu->append (*menuitem_view_all_orders);
+
   /*
   Gtk::MenuItem *menuitem_view_java = Gtk::manage(new Gtk::MenuItem("_Java",true));
   menuitem_view_all->signal_activate().connect(sigc::mem_fun(*this, &Mainwin::on_view_all_java_click));
@@ -193,6 +197,47 @@ void Mainwin::on_list_customers_click()
 
 void Mainwin::on_view_orders_click()
 {
+  std::string order_info ;
+  int result;
+  Gtk::Dialog *dialog = new Gtk::Dialog();
+    dialog->set_title("View Order");
+    Gtk::VBox *vb_order = new Gtk::VBox{};
+    Gtk::HBox *hb_order = new Gtk::HBox{};
+
+
+    Gtk::Label *l_order_info = new Gtk::Label{};
+    l_order_info -> show();
+    vb_order ->pack_start(*l_order_info,Gtk::PACK_SHRINK);
+
+
+    Gtk::Label *l_order = new Gtk::Label{"Orders:"};
+    l_order_info ->set_width_chars(15);
+    l_order_info -> show();
+    hb_order ->pack_start(*l_order,Gtk::PACK_SHRINK);
+
+    Gtk::ComboBoxText *cb_orders = new Gtk::ComboBoxText{};
+    cb_orders->set_size_request(300);
+
+    for (int i = 1 ; i <= _store.number_of_orders() ; ++i )
+    cb_orders->append(std::to_string(i));
+    cb_orders ->show();
+    hb_order -> pack_start(*cb_orders,Gtk::PACK_SHRINK);
+
+    vb_order ->pack_start(*hb_order,Gtk::PACK_SHRINK);
+    dialog->get_vbox()->pack_start(*vb_order,Gtk::PACK_SHRINK);
+
+    dialog->add_button("Close", 0);
+    dialog->add_button("Show", 1);
+    do 
+    {
+    l_order_info -> set_text(order_info);
+    result = dialog->run();
+    int order_id= cb_orders->get_active_row_number();
+    dialog->close();
+    while (Gtk::Main::events_pending())  Gtk::Main::iteration();
+    l_order_info ->set_text(_store.order_to_string(order_id));
+    
+    } while ( result = 1);
 
 }
 
@@ -204,15 +249,12 @@ void Mainwin::on_create_order_click()
   int result;
   int display_order_number;
   int productid;
-  Order* _current_order;
+  Order* _current_order =new Order();
 
-     display_order_number= _store.number_of_orders() +1;
-      _current_order = new Order();
-  
+     display_order_number= _current_order ->order_number();
+
   std::string order_text = "Order No: " + std::to_string(display_order_number) + "\n";
   std::string current_order;
-  do
-  {
 
     Gtk::Dialog *dialog = new Gtk::Dialog();
     dialog->set_title("Create Order");
@@ -225,13 +267,14 @@ void Mainwin::on_create_order_click()
     l_order_number -> show();
     vb_order->pack_start(*l_order_number,Gtk::PACK_SHRINK);
 
+    Gtk::Label *l_space = new Gtk::Label{};
+    vb_order->pack_start(*l_space,Gtk::PACK_SHRINK);
+
     Gtk::Label *l_order_list = new Gtk::Label{};
     l_order_list -> set_text(current_order);
     l_order_list ->show();
     vb_order->pack_start(*l_order_list,Gtk::PACK_SHRINK);
 
-    Gtk::Label *l_space = new Gtk::Label{};
-    vb_order->pack_start(*l_space,Gtk::PACK_SHRINK);
 
     Gtk::ComboBoxText *cb_products = new Gtk::ComboBoxText{};
     cb_products->set_size_request(300);
@@ -240,35 +283,39 @@ void Mainwin::on_create_order_click()
     cb_products->append((std::to_string(i+1) + ". " + _store.get_product(i)->to_string()));
     cb_products ->show();
 
-    vb_order->pack_start(*cb_products, Gtk::PACK_SHRINK);
-    vb_order ->show();
-    dialog->get_vbox()->pack_start(*vb_order, Gtk::PACK_SHRINK);
-
     dialog->add_button("Cancel", 0);
     dialog->add_button("Add", 1);
     dialog->add_button("Next",2 );
     dialog->set_default_response(2);
 
+    vb_order->pack_start(*cb_products, Gtk::PACK_SHRINK);
+    vb_order ->show();
+    dialog->get_vbox()->pack_start(*vb_order, Gtk::PACK_SHRINK);
+    do
+  {
+    l_order_list -> set_text(current_order);
     result = dialog->run();
     productid= cb_products->get_active_row_number();
     dialog->close();
     while (Gtk::Main::events_pending())  Gtk::Main::iteration();
     if (result)
     {
-      
+
       _current_order->add_product(_store.get_product(productid));
       current_order += _store.get_product(productid)->to_string() + "\n";
 
     }
-    delete dialog;
-    delete vb_order;
-    delete l_space;
-    delete l_order_list;
-    delete l_order_number;
-    delete cb_products;
+
 
   }while ( result ==1);
-  
+
+  delete dialog;
+  delete vb_order;
+  delete l_space;
+  delete l_order_list;
+  delete l_order_number;
+  delete cb_products;
+
   if (result == 2 )
   {
     Gtk::Dialog *dialog = new Gtk::Dialog();
@@ -290,9 +337,10 @@ void Mainwin::on_create_order_click()
 
     if (result == 1)
     {
-      std::cout << _current_order->order_to_string() + '\n';
-      current_order+= _store.customer_to_string(customer_id) + '\n';
-      Dialogs::message(current_order,"All");
+      //Dialogs::message("Successful","Hurray!!");
+      
+      int order_number = _store.place_order(*_current_order,customer_id);
+      Dialogs::message (("Order No" + std::to_string(order_number) + " Placed"),"Successful");
     }
 
   }
@@ -301,13 +349,21 @@ void Mainwin::on_create_order_click()
 //
 
 
-
 void Mainwin::on_save_click()
 {
+
+  std::ofstream ofs{"data.txt"};
+  if (ofs) _store.save(ofs);
+    Dialogs::message("save Complete");;
+
+
 
 }
 
 void Mainwin::on_load_click()
 {
-  
+  std::ifstream ifs{"data.txt"};
+  if (ifs)
+  _store.load(ifs);
+  Dialogs::message("Load Complete");
 }
