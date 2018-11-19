@@ -8,14 +8,14 @@ class Order
 {
   public:
     Order();
-    int order_number();
+    int order_number() const;
     void add_product (Product* product);
     bool paid();
     void pay();
     bool filled();
     void fill();
     std::string order_to_string();
-    //bool operator< (const Order& userObj);
+    bool operator< (const Order& rhs)const;
 
 
   protected:

@@ -1,4 +1,4 @@
-#include "Customer.h"
+#include "customer.h"
 
 Customer::Customer(std::string customer, std::string customer_phone)
     : _customer{customer}, _customer_phone{customer_phone} { }

@@ -7,7 +7,7 @@ Order::Order()
 }
 
 
-int Order::order_number()
+int Order::order_number() const
 {
   return _order_number;
 }
@@ -39,15 +39,13 @@ std::string Order::order_to_string()
   while (i < _products.size())
   {
       strs <<"\t"<< std::to_string(i+1) << ". " << _products[i]->to_string()<<std::endl;
+      i++;
   }
   return strs.str();
 }
-/*
-bool Order::operator< (const Order& userObj) const
+
+bool Order::operator< ( const Order& rhs) const
     {
-        if(userObj.order_number() < this->order_number())
-            return true;
-        else
-          return false;
+        return(this->order_number()<rhs.order_number());
     }
-*/    
+ 
