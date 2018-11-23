@@ -8,6 +8,7 @@ class Order
 {
   public:
     Order();
+    Order(const Order& obj);
     int order_number() const;
     void add_product (Product* product);
     bool paid();
@@ -16,6 +17,12 @@ class Order
     void fill();
     std::string order_to_string();
     bool operator< (const Order& rhs)const;
+    void discard();
+    bool discarded();
+    bool pending();
+    bool completed();
+    double profit();
+
 
 
   protected:
@@ -25,6 +32,7 @@ class Order
     int _order_number;
     bool _is_paid;
     bool _is_filled;
+    bool _is_discarded;
 
 };
 #endif

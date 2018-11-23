@@ -13,6 +13,10 @@ std::string Product::to_string()
   std::string str = strs.str() ;
   return str;
 }
+double Product::profit()
+{
+	return(_price - _cost);
+}
 
 void Product::save(std::ostream& ost)
 {

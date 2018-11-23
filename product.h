@@ -13,6 +13,7 @@ class Product
     Product(std::string name, double price , double cost);
     Product();
     std::string name();
+    double profit();
     virtual std::string to_string();
     virtual void save(std::ostream& ost);
 

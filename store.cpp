@@ -124,3 +124,99 @@ void Store::load (std::istream& ist)
   }
 
 }
+
+int Store::last_order()
+{
+ 
+  return _orders.size()+1;
+}
+
+
+auto& Store::find_order_pair(int order_number)
+{
+  for ( auto it = _orders.begin(); it != _orders.end(); ++it  )
+  {
+    if (it->first.order_number() == order_number)
+        return it->first;
+  }  
+
+}
+
+void Store::pay_order (int order_number)
+{
+  for ( auto it = _orders.begin(); it != _orders.end(); ++it  )
+    {
+      if (it->first.order_number() == order_number)
+          {
+            Order temp_order(it->first);
+            Customer temp_customer = it->second;
+            temp_order.pay();
+            _orders.erase(it);
+            _orders.insert ( std::pair<Order,Customer>(temp_order,temp_customer) );
+            break;
+          }
+    }  
+}
+
+
+void Store::discard_order(int order_number)
+{
+  for ( auto it = _orders.begin(); it != _orders.end(); ++it  )
+    {
+      if (it->first.order_number() == order_number)
+          {
+            Order temp_order(it->first);
+            Customer temp_customer = it->second;
+            temp_order.discard();
+            _orders.erase(it);
+            _orders.insert ( std::pair<Order,Customer>(temp_order,temp_customer) );
+            break;
+          }
+    }  
+}
+
+void Store::fill_order(int order_number)
+{
+  for ( auto it = _orders.begin(); it != _orders.end(); ++it  )
+    {
+      if (it->first.order_number() == order_number)
+          {
+            Order temp_order(it->first);
+            Customer temp_customer = it->second;
+            temp_order.fill();
+            _orders.erase(it);
+            _orders.insert ( std::pair<Order,Customer>(temp_order,temp_customer) );
+            break;
+          }
+    }  
+}
+
+
+    bool Store::order_is_paid(int order_number)
+    {
+      auto temp = find_order_pair(order_number);
+      return temp.paid();
+
+    }
+    
+    bool Store::order_is_discarded(int order_number)
+    {
+      auto it = find_order_pair(order_number);
+      return it.discarded();
+    }
+    
+    bool Store::order_is_filled(int order_number)
+    {
+      auto it = find_order_pair(order_number);
+      return it.filled();
+    }
+    bool Store::order_is_completed(int order_number)
+    {
+      auto it = find_order_pair(order_number);
+      return it.completed();
+    }
+    bool Store::order_is_pending(int order_number)
+    {
+      auto it = find_order_pair(order_number);
+      return it.pending();
+    }

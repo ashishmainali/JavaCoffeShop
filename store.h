@@ -14,7 +14,7 @@ class Store
   public:
   	Store(std::string name);
     Store();
-    void free_products();
+   
     std::string name();
     void add_product(Product* product);
     int number_of_products();
@@ -26,14 +26,28 @@ class Store
     int place_order(Order order,int customer);
     int number_of_orders();
     std::string order_to_string(int order_number);
+
+    void pay_order (int order_number);
+    bool order_is_paid(int order_number);
+    void discard_order(int order_number);
+    bool order_is_discarded(int order_number);
+    void fill_order(int order_number);
+    bool order_is_filled(int order_number);
+    bool order_is_completed(int order_number);
+    bool order_is_pending(int order_number);
+
+
     void save(std::ostream& ost); 
     void load (std::istream& ist);
+    int last_order();
+    void free_products();
     
   private:
     std::string _name;
     std::vector<Product*> _products;
     std::vector<Customer*> _customers;
     std::map<Order, Customer> _orders;
+    auto& find_order_pair(int order_number);
 };
 
 #endif

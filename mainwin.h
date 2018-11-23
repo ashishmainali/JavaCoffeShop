@@ -10,7 +10,10 @@
 #include <sstream>
 #include <fstream>
 
-
+enum Action
+{
+    Fill,Discard,Pay
+};
 
 class Mainwin : public Gtk::Window
 {
@@ -29,6 +32,10 @@ class Mainwin : public Gtk::Window
     void on_create_order_click();
     void on_save_click();
     void on_load_click();
+    void on_order_fill_click();
+    void on_order_pay_click();
+    void on_order_discard_click();
+    void process_order(Action x);
 
   private:
     Store _store;
