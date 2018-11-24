@@ -60,6 +60,14 @@ std::string Order::order_to_string()
 {
   std::ostringstream strs;
   int i = 0;
+  if (this->discarded())
+    strs<<"(discarded): \n";
+  else if(this->paid())
+    strs<<"(paid): \n";
+  else if(this->filled())
+    strs<<"(filled): \n";
+  else
+    strs << "(unfilled): \n";
   while (i < _products.size())
   {
       strs <<"\t"<< std::to_string(i+1) << ". " << _products[i]->to_string()<<std::endl;

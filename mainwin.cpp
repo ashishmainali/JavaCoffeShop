@@ -211,16 +211,33 @@
         tb_about->signal_clicked().connect(sigc::mem_fun(*this, &Mainwin::on_about_click));
         toolbar->append(*tb_about);
 
+        
         Gtk::Label* expand = new Gtk::Label();
         expand->set_vexpand(true);
         vbox ->pack_start(*expand);
 
+        Gtk::HBox *hb_statusbar = new Gtk::HBox{};
+        Gtk::Label *space = new Gtk::Label{};
+        space->set_width_chars(10);
+        hb_statusbar->pack_start(*space);
+
         msg = Gtk::manage(new Gtk::Label());
         msg->set_hexpand(true);
-        msg ->set_text("Status Bar");
+        //msg ->set_text(_status_bar);
         msg ->show();
-        vbox->add(*msg);
+        msg->set_hexpand(true);
 
+        hb_statusbar ->pack_start(*msg);
+
+        std::stringstream strs;
+        strs << std::setprecision(2)<<_store.get_cash();
+        l_cash ->set_text("Total Cash: $"+ strs.str());
+
+        l_cash->show();
+        hb_statusbar->pack_start(*l_cash);
+
+        vbox->add(*hb_statusbar);
+        
 
 
           vbox->show_all();
@@ -275,7 +292,7 @@
           dialog->get_vbox() ->pack_start(*l_order_info,Gtk::PACK_SHRINK);
       
       
-          Gtk::Label *l_order = new Gtk::Label{"Orders:"};
+          Gtk::Label *l_order = new Gtk::Label{"Order:"};
           l_order ->set_width_chars(15);
           l_order -> show();
           hb_order ->pack_start(*l_order,Gtk::PACK_SHRINK);
@@ -411,6 +428,7 @@
                     _current_order->add_product(_store.get_product(temp_productid[i]));
                 int order_number = _store.place_order(*_current_order,customer_id);
                 Dialogs::message (("Order No" + std::to_string(order_number) + " Placed"),"Successful");
+                
               }
               
               }
@@ -515,7 +533,11 @@
           {
           case 0: _store.fill_order(order_id);break;
           case 1: _store.discard_order(order_id);break;
-          case 2: _store.pay_order(order_id);break;
+          case 2:  std::stringstream strs;
+                  strs << std::setprecision(2)<< _store.pay_order(order_id);
+                  l_cash ->set_text("Total Cash: $"+ strs.str());
+
+                   break;
           }
           }
           catch (std::exception &e)
@@ -527,3 +549,6 @@
 
         
       }
+
+
+

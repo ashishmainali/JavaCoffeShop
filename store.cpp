@@ -1,7 +1,13 @@
 #include "store.h"
 
-Store::Store(std::string name):_name{name}{}
-Store::Store(){};
+Store::Store(std::string name):_name{name}
+{
+  static double _cash = 0;
+}
+Store::Store()
+{
+  static double _cash = 0 ;
+};
 std::string Store::name()
 {
   return _name;
@@ -58,7 +64,7 @@ int Store::number_of_orders()
 std::string Store::order_to_string(int order_number)
 {
   std::ostringstream strs;
-  strs << "Order Number # " << order_number<<": \n";
+  strs << "Order Number # " << order_number;
   bool order_not_found = true;
   for ( auto it = _orders.begin(); it != _orders.end(); ++it  )
         {
@@ -142,18 +148,21 @@ auto& Store::find_order_pair(int order_number)
 
 }
 
-void Store::pay_order (int order_number)
+double Store::pay_order (int order_number)
 {
   for ( auto it = _orders.begin(); it != _orders.end(); ++it  )
     {
       if (it->first.order_number() == order_number)
           {
+            static double _cash = 0 ;
             Order temp_order(it->first);
             Customer temp_customer = it->second;
             temp_order.pay();
             _orders.erase(it);
             _orders.insert ( std::pair<Order,Customer>(temp_order,temp_customer) );
-            break;
+            _cash += temp_order.profit();
+            return _cash;
+
           }
     }  
 }
@@ -219,4 +228,10 @@ void Store::fill_order(int order_number)
     {
       auto it = find_order_pair(order_number);
       return it.pending();
+    }
+
+    double Store::get_cash()
+    {
+      static double _cash = _cash;
+      return _cash;
     }

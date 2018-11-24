@@ -22,7 +22,7 @@ product.o: product.cpp *.h
 java.o: java.cpp *.h
 	${CXX} ${CXXFLAGS} -c java.cpp
 store.o: store.cpp *.h
-	${CXX} ${CXXFLAGS} -c store.cpp
+	${CXX} ${CXXFLAGS} -c store.cpp 
 customer.o : customer.cpp *.h
 	${CXX} ${CXXFLAGS} -c customer.cpp
 	###testing area

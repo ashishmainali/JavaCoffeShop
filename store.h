@@ -27,7 +27,7 @@ class Store
     int number_of_orders();
     std::string order_to_string(int order_number);
 
-    void pay_order (int order_number);
+    double pay_order (int order_number);
     bool order_is_paid(int order_number);
     void discard_order(int order_number);
     bool order_is_discarded(int order_number);
@@ -35,12 +35,14 @@ class Store
     bool order_is_filled(int order_number);
     bool order_is_completed(int order_number);
     bool order_is_pending(int order_number);
-
+    double get_cash();
 
     void save(std::ostream& ost); 
     void load (std::istream& ist);
     int last_order();
     void free_products();
+    
+
     
   private:
     std::string _name;
@@ -48,6 +50,7 @@ class Store
     std::vector<Customer*> _customers;
     std::map<Order, Customer> _orders;
     auto& find_order_pair(int order_number);
+    static double _cash;
 };
 
 #endif

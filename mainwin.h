@@ -9,6 +9,7 @@
 #include <stdexcept>
 #include <sstream>
 #include <fstream>
+#include <iomanip>
 
 enum Action
 {
@@ -36,12 +37,17 @@ class Mainwin : public Gtk::Window
     void on_order_pay_click();
     void on_order_discard_click();
     void process_order(Action x);
+    //void update_statusbar();
+    
+
 
   private:
     Store _store;
     Gtk::Label* msg = new Gtk::Label;
+    Gtk::Label* l_cash = new Gtk::Label;
     Gtk::MenuItem* menuitem_new_coffee = Gtk::manage(new Gtk::MenuItem("_Coffee",true));
     Gtk::MenuItem* menuitem_new_donut = Gtk::manage(new Gtk::MenuItem("_Donut",true));
+    //std::string _status_bar;
 
 };
 
