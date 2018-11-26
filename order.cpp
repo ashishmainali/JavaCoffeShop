@@ -111,3 +111,15 @@ bool Order::operator< ( const Order& rhs) const
       }
       return profit;
     }
+
+
+
+    void Order::save(std::ostream& ost)
+    {
+      ost << _products.size()<<std::endl;
+      for (int i = 0 ; i < _products.size();i++)
+              ost<<_products[i]->to_string()<<std::endl;
+            ost<<this->discarded()<<std::endl;
+            ost<<this->filled()<<std::endl;
+            ost<<this->paid()<<std::endl;
+    } 

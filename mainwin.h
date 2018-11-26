@@ -10,6 +10,7 @@
 #include <sstream>
 #include <fstream>
 #include <iomanip>
+#include <exception>
 
 enum Action
 {

@@ -1,11 +1,13 @@
     #include "mainwin.h"
     Mainwin::~Mainwin() 
     {
+
       _store.free_products();
-     }
+    }
     Mainwin::Mainwin()
     {
-      set_default_size(700, 400);
+      this->on_load_click();
+      set_default_size(900, 400);
       Gtk::Box *vbox = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_VERTICAL, 0));
       add(*vbox);
       //CRETING MENU BAR "menubar"
@@ -180,8 +182,30 @@
 
         Gtk::SeparatorToolItem *sep0 = Gtk::manage(new Gtk::SeparatorToolItem());
         toolbar->append(*sep0);
+
        
 
+
+        Gtk::Image *fill = Gtk::manage(new Gtk::Image{"logo/fill.png"});
+        Gtk::ToolButton *tb_fill_order = Gtk::manage(new Gtk::ToolButton(*fill));
+        tb_fill_order->set_tooltip_markup("Fill order");
+        tb_fill_order->signal_clicked().connect(sigc::mem_fun(*this, &Mainwin::on_order_fill_click));
+        toolbar->append(*tb_fill_order);
+
+        Gtk::Image *pay_order = Gtk::manage(new Gtk::Image{"logo/pay.png"});
+        Gtk::ToolButton *tb_pay_order = Gtk::manage(new Gtk::ToolButton(*pay_order));
+        tb_pay_order->set_tooltip_markup("Pay order");
+        tb_pay_order->signal_clicked().connect(sigc::mem_fun(*this, &Mainwin::on_order_pay_click));
+        toolbar->append(*tb_pay_order);
+
+        Gtk::Image *discard_order = Gtk::manage(new Gtk::Image{"logo/discard.png"});
+        Gtk::ToolButton *tb_discard_order = Gtk::manage(new Gtk::ToolButton(*discard_order));
+        tb_discard_order->set_tooltip_markup("Discard order");
+        tb_discard_order->signal_clicked().connect(sigc::mem_fun(*this, &Mainwin::on_order_discard_click));
+        toolbar->append(*tb_discard_order);
+
+        Gtk::SeparatorToolItem *sep3 = Gtk::manage(new Gtk::SeparatorToolItem());
+        toolbar->append(*sep3);
 
         Gtk::Image *view_all_product = Gtk::manage(new Gtk::Image{"logo/view_all_products.png"});
         Gtk::ToolButton *tb_view_all_product = Gtk::manage(new Gtk::ToolButton(*view_all_product));
@@ -201,8 +225,8 @@
         tb_view_orders->signal_clicked().connect(sigc::mem_fun(*this, &Mainwin::on_view_orders_click));
         toolbar->append(*tb_view_orders);
 
-        Gtk::SeparatorToolItem *sep3 = Gtk::manage(new Gtk::SeparatorToolItem());
-        toolbar->append(*sep3);
+        Gtk::SeparatorToolItem *sep4 = Gtk::manage(new Gtk::SeparatorToolItem());
+        toolbar->append(*sep4);
 
 
         Gtk::Image *about = Gtk::manage(new Gtk::Image{"logo/about.png"});
@@ -230,7 +254,7 @@
         hb_statusbar ->pack_start(*msg);
 
         std::stringstream strs;
-        strs << std::setprecision(2)<<_store.get_cash();
+        strs <<std::fixed<< std::setprecision(2)<<_store.get_cash();
         l_cash ->set_text("Total Cash: $"+ strs.str());
 
         l_cash->show();
@@ -241,6 +265,8 @@
 
 
           vbox->show_all();
+
+          this->on_save_click();
 
     }
 
@@ -444,20 +470,38 @@
     void Mainwin::on_save_click()
     {
 
-      std::ofstream ofs{"data.txt"};
+      std::ofstream ofs{"data1.txt"};
+      try
+      {
       if (ofs) _store.save(ofs);
-        Dialogs::message("save Complete");;
+       ofs.close();
+      }
+     catch (std::exception& e)
+     {
+        Dialogs::message(e.what(),"File Load Error");
+     }
+      }
 
 
 
-    }
+    
 
     void Mainwin::on_load_click()
     {
-      std::ifstream ifs{"data.txt"};
+      static int loaded = 0;
+      if (!loaded)
+      {
+      std::ifstream ifs{"data1.txt"};
       if (ifs)
       _store.load(ifs);
-      Dialogs::message("Load Complete");
+     std::stringstream strs;
+
+      strs << std::fixed<< std::setprecision(2)<<_store.get_cash();
+      
+        l_cash ->set_text("Total Cash: $"+ strs.str());
+        ifs.close();
+        loaded =1;
+      }
     }
 
 
@@ -534,7 +578,10 @@
           case 0: _store.fill_order(order_id);break;
           case 1: _store.discard_order(order_id);break;
           case 2:  std::stringstream strs;
-                  strs << std::setprecision(2)<< _store.pay_order(order_id);
+                   
+                  _store.pay_order(order_id);
+                 
+                  strs <<std::fixed<< std::setprecision(2)<< _store.get_cash();
                   l_cash ->set_text("Total Cash: $"+ strs.str());
 
                    break;

@@ -23,7 +23,8 @@ class Order
     bool pending();
     bool completed();
     double profit();
-
+    void save(std::ostream& ost); 
+   
 
 
   protected:
