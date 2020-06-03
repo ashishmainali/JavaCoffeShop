@@ -37,7 +37,7 @@ babydoll
 Natasha Limyoski
 981-987-1146
 ##ORDER##
-4
+5
 1
 Expresso (3.76 /2.19) Dark(Hazelnut), (Irish crème)
 0
@@ -58,7 +58,7 @@ Sweet Delight ( 2.25 / 1.32 ) Filled with Creme and sprinkles.(Chocolate topping
 Sweet Delight ( 2.25 / 1.32 ) Filled with Creme and sprinkles.(Chocolate topping)
 0
 0
-0
+1
 Avinash Mainali, 984-120-8255
 6
 Expresso (3.76 /2.19) Dark(Hazelnut), (Irish crème)
@@ -69,5 +69,14 @@ Decaf NoShot (1 /0.2) Blonde
 Decaf NoShot (1 /0.2) Blonde
 0
 0
-0
+1
 Natasha Limyoski, 981-987-1146
+4
+Sweet Delight ( 2.25 / 1.32 ) Filled with Creme and sprinkles.(Chocolate topping)
+Decaf (2.5 /1.34) Light(Vanilla)
+Decaf NoShot (1 /0.2) Blonde
+Decaf NoShot (1 /0.2) Blonde
+0
+0
+0
+Avinash Mainali, 984-120-8255
